@@ -261,7 +261,7 @@ public class MyFrame extends JFrame implements ActionListener, TableModelListene
 							}
 						}
 						
-						//this.createSortFile2(fileSavePath, solutionsList, weights);
+						this.createSortFile2(fileSavePath, listOfSolutionsList, weights);
 					
 						System.out.println("Number of solutions: " + numberOfSolutions);
 					}
@@ -301,7 +301,7 @@ public class MyFrame extends JFrame implements ActionListener, TableModelListene
 	}
 	
 	private void createSortFile2(final String fileSavePath,
-			final ArrayList<String> solutionsList,
+			final ArrayList<ArrayList<String>> listOfSolutionsList,
 			final List<String> weights) throws IOException {
 		final boolean isThereAComponentSelectedToSort = !componentToSort.equals("");
 		if (isThereAComponentSelectedToSort) {
@@ -311,14 +311,20 @@ public class MyFrame extends JFrame implements ActionListener, TableModelListene
 			
 			final FileWriter fileWriter2 = new FileWriter(fileSavePath2);
 			
-			this.sortList(solutionsList);
+			final ArrayList<String> allSolutions = new ArrayList<String>();
+			for (ArrayList<String> solutionsList : listOfSolutionsList) {
+				for (String solution : solutionsList) {
+					allSolutions.add(solution);
+				}
+			}
 			
-			for (final String s : solutionsList) {
+			this.sortList(allSolutions);
+			
+			for (final String solution : allSolutions) {
 				try {
-				fileWriter2.append(s);
-				//System.out.println(s);
+					fileWriter2.append(solution);
 				} catch (IOException ex) { 
-				ex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
 			
